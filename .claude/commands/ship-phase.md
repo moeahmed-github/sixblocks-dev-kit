@@ -1,27 +1,29 @@
 ---
-description: Run the full verification loop, then commit the phase
-argument-hint: <phase>   e.g. 0
+description: Run the full verification loop, then commit
+argument-hint: <what you are closing out>   e.g. auth refactor
 ---
 
-Close out phase **$1**.
+Close out **$1**.
 
 **Verify first. Show the output of every command — never assert that a check
 passed.**
+
+Run this project's checks, in order. **Edit this list to match your project** —
+these are the defaults, not the law:
 
 1. `npm run typecheck`
 2. `npm run lint`
 3. `npm test`
 4. `npm run build`
-5. `node scripts/audit-palette.mjs`
-6. `npm run sync` — report any drift
-7. Dispatch `site-reviewer` over the diff
 
-Then check the phase's done-criteria in `_BUILD/01_EXECUTION_GUIDE.md` and
-report each box with the evidence that satisfies it.
+Then dispatch the `site-reviewer` agent over the diff, if the project has one.
 
-If everything passes, commit with a message naming the phase and what shipped.
-If anything fails, **stop and report** — do not commit a red phase, and do not
+Then check the done-criteria for the work being closed — wherever your project
+records them (an issue, a plan file, a checklist) — and report each one with
+the evidence that satisfies it.
+
+If everything passes, commit with a message naming what shipped.
+If anything fails, **stop and report** — do not commit a red build, and do not
 describe a failing check as "mostly working".
 
-Finally, state what the next phase is and remind me to clear context before
-starting it.
+Finally, state what the next piece of work is.

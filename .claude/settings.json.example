@@ -1,0 +1,35 @@
+{
+  "_comment": "Rename to settings.json. Hooks run automatically on matching tool calls — read each script before enabling it. Delete any hook block you do not want.",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          { "type": "command", "command": "node .claude/hooks/block-dangerous.mjs" }
+        ]
+      },
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          { "type": "command", "command": "node .claude/hooks/no-secrets.mjs" }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          { "type": "command", "command": "node .claude/hooks/format-on-edit.mjs" },
+          { "type": "command", "command": "node .claude/hooks/typecheck-on-edit.mjs" }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          { "type": "command", "command": "node .claude/hooks/notify-done.mjs" }
+        ]
+      }
+    ]
+  }
+}

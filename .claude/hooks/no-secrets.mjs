@@ -1,9 +1,7 @@
 /**
  * no-secrets — PreToolUse (Edit | Write)
  *
- * Refuses to write a live credential into the repo. This course teaches
- * secrets hygiene in Level 2 and audits for exposed secrets in Level 5, so
- * shipping one in our own repo would be the worst possible demonstration.
+ * Refuses to write a live credential into the repo.
  *
  * Placeholders are allowed. The point is to catch a real key pasted in by
  * accident, not to ban the word "key".
@@ -25,7 +23,7 @@ const PATTERNS = [
   { name: "private key block", pattern: /-----BEGIN (RSA |EC |OPENSSH |PGP )?PRIVATE KEY-----/ },
 ];
 
-/** Obvious placeholders — these are what lessons are supposed to contain. */
+/** Obvious placeholders — these are what docs and examples should contain. */
 const PLACEHOLDER =
   /(your[_-]?key|xxx+|\.\.\.|<[^>]+>|example|placeholder|redacted|sk-ant-api03-REPLACE)/i;
 
@@ -49,7 +47,7 @@ for (const { name, pattern } of PATTERNS) {
   const match = written.match(pattern);
   if (!match) continue;
 
-  // A masked example in a lesson is fine and expected.
+  // A masked example in documentation is fine and expected.
   const context = written.slice(
     Math.max(0, (match.index ?? 0) - 40),
     (match.index ?? 0) + match[0].length + 40,
@@ -58,7 +56,7 @@ for (const { name, pattern } of PATTERNS) {
 
   deny(
     "PreToolUse",
-    `Blocked by the no-secrets hook: this write contains what looks like a real ${name}.\n\nPut it in .env.local (which is gitignored) and read it from the environment. If it is a fake value for a lesson, make it obviously fake — "sk-ant-api03-REPLACE-ME" rather than a realistic string.`,
+    `Blocked by the no-secrets hook: this write contains what looks like a real ${name}.\n\nPut it in .env.local (which is gitignored) and read it from the environment. If it is a fake value for an example, make it obviously fake — "sk-ant-api03-REPLACE-ME" rather than a realistic string.`,
   );
 }
 

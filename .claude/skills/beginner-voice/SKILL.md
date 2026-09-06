@@ -1,6 +1,6 @@
 ---
 name: beginner-voice
-description: Use when writing or editing any prose a student will read — lesson text, level descriptions, project briefs, UI copy, empty and error states, button labels, the landing page — and when a reviewer says copy is too technical, too long, or condescending.
+description: Use when writing or editing any prose a non-expert will read — docs, onboarding, UI copy, empty and error states, button labels, the landing page — and when a reviewer says copy is too technical, too long, or condescending.
 ---
 
 # Beginner Voice

@@ -13,7 +13,13 @@ import { readHookInput, deny, allow } from "./_input.mjs";
 const RULES = [
   {
     // rm -rf against a root, a home directory, or a bare wildcard.
-    pattern: /\brm\s+(-[a-z]*[rf][a-z]*\s+)+(\/|~|\/\*|\.\s*$|\*\s*$)/i,
+    //
+    // Each target is anchored so it must be the WHOLE argument. Without the
+    // anchors, the bare `\/` alternative matched the leading slash of any
+    // absolute path, so `rm -f /tmp/scratch.txt` — an explicitly named file —
+    // was blocked. A safety net that fires on ordinary commands gets switched
+    // off, and then it protects nothing.
+    pattern: /\brm\s+(-[a-z]*[rf][a-z]*\s+)+(\/|~|\/\*|\*|\.)(\s|$)/i,
     reason:
       "`rm -rf` targeting a root, home directory, or bare wildcard. Name the exact directory instead.",
   },
@@ -33,7 +39,10 @@ const RULES = [
       "`git clean -fd` deletes untracked files permanently. Run it with `-n` first and read the list.",
   },
   {
-    pattern: /\bgit\s+checkout\s+--\s+\./i,
+    // Anchored to a BARE `.`. Unanchored, the `\.` matched the leading dot of
+    // every dotfile, so `git checkout -- .gitignore` was blocked despite
+    // naming exactly one file.
+    pattern: /\bgit\s+checkout\s+--\s+\.\s*$/i,
     reason:
       "`git checkout -- .` discards every uncommitted change in the tree. Name the specific file.",
   },

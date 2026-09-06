@@ -21,10 +21,10 @@ import {
 
 /**
  * Code only. Markdown and MDX are deliberately absent: Prettier's MDX printer
- * edits lesson CONTENT, not just its layout — it mangles multi-line JSX
- * comments into `{/_ _/}` (which no longer compiles) and collapses the space
- * runs inside <Terminal> blocks, which are real captured output. See the note
- * in .prettierignore.
+ * edits CONTENT, not just layout — it mangles multi-line JSX comments into
+ * `{/_ _/}` (which no longer compiles) and collapses runs of spaces inside
+ * code/output blocks, where the spacing is the real captured output. Add MDX
+ * back only if you have checked what it does to your own content.
  */
 const FORMATTABLE = /\.(tsx?|jsx?|mjs|cjs|css|json)$/;
 
